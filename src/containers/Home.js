@@ -57,8 +57,8 @@ export default function Home() {
   function renderLander() {
     return(
       <div className="lander">
-        <h1>Scratch</h1>
-        <p>A simple note taking app</p>
+        <h1>YourTrip</h1>
+        <p>A simple trip planner app</p>
       </div>
     )
   }
