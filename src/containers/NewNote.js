@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { API } from "aws-amplify"
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap"
+import { FormGroup, FormControl, ControlLabel, Form } from "react-bootstrap"
 import { s3Upload } from "../libs/awsLib";
 import LoaderButton from "../components/LoaderButton"
 import { onError } from "../libs/errorLib"
@@ -11,10 +11,12 @@ import "./NewNote.css"
 export default function NewNote() {
   const file = useRef(null);
   const history = useHistory();
-  const [content, setContent] = useState("");
   const [name, setName] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [type, setType] = useState("");
+  const [budget, setBudget] = useState("");
+  const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
@@ -93,7 +95,12 @@ export default function NewNote() {
           <Form.Label>
             Type
           </Form.Label>
-          <Form.Control as="select" custom>
+          <Form.Control 
+            value={type}
+            as="select" 
+            custom
+            onChange={e => setType(e.target.value)}
+            >
             <option>Holiday</option>
             <option>Work</option>
           </Form.Control>
