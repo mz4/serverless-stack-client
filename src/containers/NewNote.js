@@ -13,6 +13,8 @@ export default function NewNote() {
   const history = useHistory();
   const [content, setContent] = useState("");
   const [name, setName] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
@@ -25,21 +27,20 @@ export default function NewNote() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-  
+
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
-        `Please pick a file smaller than ${
-          config.MAX_ATTACHMENT_SIZE / 1000000
+        `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE / 1000000
         } MB.`
       );
       return;
     }
-  
+
     setIsLoading(true);
-  
+
     try {
       const attachment = file.current ? await s3Upload(file.current) : null;
-  
+
       await createNote({ content, attachment });
       history.push("/");
     } catch (e) {
@@ -47,8 +48,8 @@ export default function NewNote() {
       setIsLoading(false);
     }
   }
-  
-  
+
+
   function createNote(note) {
     return API.post("notes", "/notes", {
       body: note
@@ -58,14 +59,59 @@ export default function NewNote() {
   return (
     <div className="NewNote">
       <form onSubmit={handleSubmit}>
-      <FormGroup controlId="content">
+        <FormGroup controlId="name">
+          <Form.Label>
+            Name
+          </Form.Label>
           <FormControl
             value={name}
             type="text"
             onChange={e => setName(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="content">
+        <FormGroup controlId="datefrom">
+          <Form.Label>
+            Date From
+          </Form.Label>
+          <FormControl
+            value={dateFrom}
+            type="text"
+            onChange={e => setDateFrom(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup controlId="dateto">
+          <Form.Label>
+            Date To
+          </Form.Label>
+          <FormControl
+            value={dateTo}
+            type="text"
+            onChange={e => setDateTo(e.target.value)}
+          />
+        </FormGroup>
+        <Form.Group controlId="type">
+          <Form.Label>
+            Type
+          </Form.Label>
+          <Form.Control as="select" custom>
+            <option>Holiday</option>
+            <option>Work</option>
+          </Form.Control>
+        </Form.Group>
+        <FormGroup controlId="budget">
+          <Form.Label>
+            Budget
+          </Form.Label>
+          <FormControl
+            value={budget}
+            type="text"
+            onChange={e => setBudget(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup controlId="description">
+          <Form.Label>
+            Description
+          </Form.Label>
           <FormControl
             value={content}
             componentClass="textarea"
