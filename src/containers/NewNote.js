@@ -12,6 +12,7 @@ export default function NewNote() {
   const file = useRef(null);
   const history = useHistory();
   const [content, setContent] = useState("");
+  const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
@@ -57,6 +58,13 @@ export default function NewNote() {
   return (
     <div className="NewNote">
       <form onSubmit={handleSubmit}>
+      <FormGroup controlId="content">
+          <FormControl
+            value={name}
+            type="text"
+            onChange={e => setName(e.target.value)}
+          />
+        </FormGroup>
         <FormGroup controlId="content">
           <FormControl
             value={content}
