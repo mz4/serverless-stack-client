@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { API } from "aws-amplify"
-import { FormGroup, FormControl, ControlLabel, Form } from "react-bootstrap"
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap"
 import { s3Upload } from "../libs/awsLib";
 import LoaderButton from "../components/LoaderButton"
 import { onError } from "../libs/errorLib"
@@ -62,9 +62,9 @@ export default function NewNote() {
     <div className="NewNote">
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="name">
-          <Form.Label>
+          <ControlLabel>
             Name
-          </Form.Label>
+          </ControlLabel>
           <FormControl
             value={name}
             type="text"
@@ -72,9 +72,9 @@ export default function NewNote() {
           />
         </FormGroup>
         <FormGroup controlId="datefrom">
-          <Form.Label>
+          <ControlLabel>
             Date From
-          </Form.Label>
+          </ControlLabel>
           <FormControl
             value={dateFrom}
             type="text"
@@ -82,33 +82,19 @@ export default function NewNote() {
           />
         </FormGroup>
         <FormGroup controlId="dateto">
-          <Form.Label>
+          <ControlLabel>
             Date To
-          </Form.Label>
+          </ControlLabel>
           <FormControl
             value={dateTo}
             type="text"
             onChange={e => setDateTo(e.target.value)}
           />
         </FormGroup>
-        <Form.Group controlId="type">
-          <Form.Label>
-            Type
-          </Form.Label>
-          <Form.Control 
-            value={type}
-            as="select" 
-            custom
-            onChange={e => setType(e.target.value)}
-            >
-            <option>Holiday</option>
-            <option>Work</option>
-          </Form.Control>
-        </Form.Group>
         <FormGroup controlId="budget">
-          <Form.Label>
+          <ControlLabel>
             Budget
-          </Form.Label>
+          </ControlLabel>
           <FormControl
             value={budget}
             type="text"
@@ -116,9 +102,9 @@ export default function NewNote() {
           />
         </FormGroup>
         <FormGroup controlId="description">
-          <Form.Label>
+          <ControlLabel>
             Description
-          </Form.Label>
+          </ControlLabel>
           <FormControl
             value={content}
             componentClass="textarea"
