@@ -30,7 +30,7 @@ export default function Notes() {
       try {
         const note = await loadNote()
         console.log(JSON.stringify(note))
-        const { content, attachment } = note
+        const { name, dateFrom, dateTo, budget, content, attachment } = note
         if (attachment) {
           note.attachmentURL = await Storage.vault.get(attachment)
         }
