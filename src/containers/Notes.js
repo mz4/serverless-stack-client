@@ -14,6 +14,10 @@ export default function Notes() {
   const history = useHistory()
   const [note, setNote] = useState(null)
   const [content, setContent] = useState("")
+  const [name, setName] = useState("")
+  const [dateFrom, setDateFrom] = useState("")
+  const [dateTo, setDateTo] = useState("")
+  const [budget, setBudget] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
@@ -32,6 +36,10 @@ export default function Notes() {
         }
         setContent(content)
         setNote(note)
+        setName(name)
+        setDateFrom(dateFrom)
+        setDateTo(dateTo)
+        setBudget(budget)
       } catch (e) {
         onError(e)
       }
@@ -43,42 +51,41 @@ export default function Notes() {
   function validateForm() {
     return content.length > 0;
   }
-  
+
   function formatFilename(str) {
     return str.replace(/^\w+-/, "");
   }
-  
+
   function handleFileChange(event) {
     file.current = event.target.files[0];
   }
-  
+
   function saveNote(note) {
     return API.put("notes", `/notes/${id}`, {
       body: note
     });
   }
-  
+
   async function handleSubmit(event) {
     let attachment;
-  
+
     event.preventDefault();
-  
+
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
-        `Please pick a file smaller than ${
-          config.MAX_ATTACHMENT_SIZE / 1000000
+        `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE / 1000000
         } MB.`
       );
       return;
     }
-  
+
     setIsLoading(true);
-  
+
     try {
       if (file.current) {
         attachment = await s3Upload(file.current);
       }
-  
+
       await saveNote({
         content,
         attachment: attachment || note.attachment
@@ -89,24 +96,24 @@ export default function Notes() {
       setIsLoading(false);
     }
   }
-  
+
   function deleteNote() {
     return API.del("notes", `/notes/${id}`);
   }
-  
+
   async function handleDelete(event) {
     event.preventDefault();
-  
+
     const confirmed = window.confirm(
       "Are you sure you want to delete this note?"
     );
-  
+
     if (!confirmed) {
       return;
     }
-  
+
     setIsDeleting(true);
-  
+
     try {
       await deleteNote();
       history.push("/");
@@ -115,12 +122,55 @@ export default function Notes() {
       setIsDeleting(false);
     }
   }
-  
+
   return (
     <div className="Notes">
       {note && (
         <form onSubmit={handleSubmit}>
+          <FormGroup controlId="name">
+            <ControlLabel>
+              Name
+          </ControlLabel>
+            <FormControl
+              value={name}
+              type="text"
+              onChange={e => setName(e.target.value)}
+            />
+          </FormGroup>
+          <FormGroup controlId="datefrom">
+            <ControlLabel>
+              Date From
+          </ControlLabel>
+            <FormControl
+              value={dateFrom}
+              type="text"
+              onChange={e => setDateFrom(e.target.value)}
+            />
+          </FormGroup>
+          <FormGroup controlId="dateto">
+            <ControlLabel>
+              Date To
+          </ControlLabel>
+            <FormControl
+              value={dateTo}
+              type="text"
+              onChange={e => setDateTo(e.target.value)}
+            />
+          </FormGroup>
+          <FormGroup controlId="budget">
+            <ControlLabel>
+              Budget
+          </ControlLabel>
+            <FormControl
+              value={budget}
+              type="text"
+              onChange={e => setBudget(e.target.value)}
+            />
+          </FormGroup>
           <FormGroup controlId="content">
+            <ControlLabel>
+              Description
+            </ControlLabel>
             <FormControl
               value={content}
               componentClass="textarea"
